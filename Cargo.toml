@@ -9,6 +9,7 @@ homepage = "https://github.com/mirooon/zkp_fiat_shamir_lib"
 documentation = "https://docs.rs/zkp_fiat_shamir_lib"             
 keywords = ["zkp", "cryptography", "fiat-shamir"]
 categories = ["cryptography", "algorithms"]
+edition = "2021"
 
 [dependencies]
 sha2 = "0.10.8"
