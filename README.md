@@ -75,6 +75,43 @@ fn main() {
 }
 ```
 
+## Explaining the Process Diagram
+The following diagram illustrates the process of the Fiat-Shamir Zero-Knowledge Proof, detailing the roles of the **Prover** and **Verifier**, along with the flow of communication and computation.
+
+### Diagram
+![Fiat-Shamir Process Diagram](/docs/images/diagram.png)
+
+### DOT Source Code for Diagram
+If you wish to regenerate the diagram, here is the Graphviz DOT source:
+
+```plaintext
+digraph {
+    nodesep=1 rankdir=LR ranksep=1 splines=ortho
+    P1 [label="Generate secret x (discrete log)\nCompute public y = g^x mod p\n\nVariables:\n  x = Prover's secret\n  g = Public generator\n  p = Public modulus" shape=box]
+    P2 [label="Generate random r and compute\ncommitment t = g^r mod p\n\nVariables:\n  r = Random value (Prover)\n  t = Commitment" shape=box]
+    P3 [label="Compute response s = (r + c * x) mod (p - 1)\n\nVariables:\n  s = Response (Prover)" shape=box]
+    V1 [label="Compute challenge c = H(t, y, g, p)\n\nVariables:\n  c = Challenge (hash)" shape=box]
+    V2 [label="Verify g^s mod p == t * y^c mod p\n\nVariables:\n  left = g^s mod p\n  right = t * y^c mod p" shape=box]
+    P1 -> P2 [label="Public y available"]
+    P2 -> V1 [label="Commitment t sent"]
+    V1 -> P3 [label="Challenge c sent"]
+    P3 -> V2 [label="Response s sent"]
+    subgraph cluster_Prover {
+        label=Prover style=dotted
+        P1
+        P2
+        P3
+    }
+    subgraph cluster_Verifier {
+        label=Verifier style=dotted
+        V1
+        V2
+    }
+}
+```
+
+You can use this source code with any Graphviz-compatible tool to regenerate the diagram.
+
 ## Installation
 Add this crate to your `Cargo.toml`:
 ```toml
